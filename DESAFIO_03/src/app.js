@@ -4,7 +4,16 @@ import markdownContent from './markdownProcessor.mjs';
 
 const manager = new ProductManager('./productos.json');
 
-manager.loadProducts();
+async function loadProducts() {
+  try {
+    await manager.loadProducts();
+    console.log('Productos cargados exitosamente');
+  } catch (error) {
+    console.log('Error al cargar los productos:');
+  }
+}
+
+loadProducts();
 
 const app = express();
 
@@ -12,30 +21,43 @@ app.get('/', (req, res) => {
   res.send(markdownContent);
 });
 
-app.get('/products', (req, res) => {
+app.get('/products', async (req, res) => {
   const limit = req.query.limit;
-  const products = manager.getProducts();
 
-  if (limit) {
-    const limitedProducts = products.slice(0, parseInt(limit, 10));
-    return res.json({ products: limitedProducts });
-  } else {
-    return res.json({ products });
+  try {
+    await manager.loadProducts();
+    const products = manager.getProducts();
+
+    if (limit) {
+      const limitedProducts = products.slice(0, parseInt(limit, 10));
+      res.json({ products: limitedProducts });
+    } else {
+      res.json({ products });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Error al cargar los productos' });
   }
 });
 
-app.get('/products/:pid', (req, res) => {
+app.get('/products/:pid', async (req, res) => {
   const productId = parseInt(req.params.pid);
-  const product = manager.getProducts().find((p) => p.id === productId);
 
-  if (product) {
-    return res.json({ product });
-  } else {
-    console.log('Producto no encontrado');
-    return res.status(404).send('Producto no encontrado');
+  try {
+    await manager.loadProducts();
+    const products = manager.getProducts();
+    const product = products.find((p) => p.id === productId);
+
+    if (product) {
+      res.json({ product });
+    } else {
+      console.log('Producto no encontrado');
+      res.status(404).send('Producto no encontrado');
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Error al cargar los productos' });
   }
 });
 
 app.listen(8080, () => {
-  console.log('Servidor escuchando en el puerto 8080');
+  console.log('Servidor Express escuchando en el puerto 8080');
 });

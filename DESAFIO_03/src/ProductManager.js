@@ -10,8 +10,10 @@ class ProductManager {
     try {
       const data = await fs.readFile(this.path, 'utf8');
       this.products = JSON.parse(data);
+      return this.products;
     } catch (err) {
-      console.error('Error al cargar los productos:', err);
+      console.log('Error al cargar los productos:');
+      return [];
     }
   }
 
