@@ -1,0 +1,35 @@
+[
+  {
+    "id": 2,
+    "title": "Producto 2",
+    "description": "Descripcion",
+    "code": "abc12367",
+    "price": 500,
+    "status": true,
+    "stock": 20,
+    "category": "Test",
+    "thumbnails": []
+  },
+  {
+    "id": "3",
+    "title": "Producto 3",
+    "description": "Descripcion",
+    "code": "abc123678",
+    "price": 500,
+    "status": true,
+    "stock": 1,
+    "category": "Test",
+    "thumbnails": []
+  },
+  {
+    "id": 4,
+    "title": "Producto 1",
+    "description": "Descripcion",
+    "code": "abc1236789",
+    "price": 500,
+    "status": true,
+    "stock": 20,
+    "category": "Test",
+    "thumbnails": []
+  }
+]
