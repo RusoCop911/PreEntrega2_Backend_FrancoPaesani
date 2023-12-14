@@ -1,0 +1,19 @@
+<div>
+    <h2>Hola {{ user.name }}!</h2>
+
+    {{#if user.isAdmin}}
+        Eres Admin.
+        {{#each municiones}}
+        <div>
+            <p>{{this.name}}</p>
+            <p>{{this.price}}</p>
+            <hr>
+        </div>
+        {{/each}}
+    {{else}}
+        No tienes persmisos!
+    {{/if}}
+</div>
+
+<script src="/static/js/index.js"> 
+</script>
